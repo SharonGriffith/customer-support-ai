@@ -7,15 +7,14 @@ export default function Home() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hi! I'm Sharon's Demo Chatbot. How can I help you today?",
+      content: "Hi! I'm the Headstarter support assistant. How can I help you today?",
     },
   ])
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const sendMessage = async () => {
-    if (!message.trim() || isLoading) return;
-    setIsLoading(true)
+    if (!message.trim()) return;  // Don't send empty messages
   
     setMessage('')
     setMessages((messages) => [
@@ -60,7 +59,6 @@ export default function Home() {
         { role: 'assistant', content: "I'm sorry, but I encountered an error. Please try again later." },
       ])
     }
-    setIsLoading(false)
   }
 
   const handleKeyPress = (event) => {
@@ -75,10 +73,10 @@ export default function Home() {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
-
+  
   useEffect(() => {
     scrollToBottom()
-  }, [messages])
+  },[messages])
 
   return (
     <Box
@@ -126,7 +124,7 @@ export default function Home() {
               </Box>
             </Box>
           ))}
-          <div ref={messagesEndRef} />
+            <div ref={messagesEndRef} />
         </Stack>
         <Stack direction={'row'} spacing={2}>
           <TextField
@@ -134,11 +132,10 @@ export default function Home() {
             fullWidth
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            disabled={isLoading}
           />
-          <Button variant="contained" 
-            onClick={sendMessage} 
+ <Button 
+            variant="contained" 
+            onClick={sendMessage}
             disabled={isLoading}
           >
             {isLoading ? 'Sending...' : 'Send'}
